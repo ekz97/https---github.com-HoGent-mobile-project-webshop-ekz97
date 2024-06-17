@@ -9,6 +9,7 @@ import { useFonts } from 'expo-font';
 export default function App() {
   let [fontsLoaded] = useFonts({
     'Roboto': require('./src/fonts/Roboto-BlackItalic.ttf'),
+    
   });
 
 
