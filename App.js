@@ -1,22 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { store, persistor } from './src/store/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import RootNavigator from './src/navigation/RootNavigator';
+import * as SplashScreen from 'expo-splash-screen';
+import { useFonts } from 'expo-font';
 
 export default function App() {
+  let [fontsLoaded] = useFonts({
+    'Roboto': require('./src/fonts/Roboto-BlackItalic.ttf'),
+  });
+
+
+  if (!fontsLoaded) {
+    SplashScreen.preventAutoHideAsync();
+    return null;
+  } else {
+    SplashScreen.hideAsync();
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Classified top secret !!!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <RootNavigator />
+      </PersistGate>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-
